@@ -1,0 +1,16 @@
+{
+  "name": "paypal-payment",
+  "version": "1.0.0",
+  "description": "PayPal Payment and Subscription Worker",
+  "main": "src/workers.js",
+  "scripts": {
+    "dev": wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^3.11.7"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
