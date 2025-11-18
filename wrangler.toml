@@ -1,0 +1,14 @@
+name = "paypal-payment"
+compatibility_date = "2024-10-01"
+
+[vars]
+PAYPAL_CLIENT_ID = "your_paypal_client_id"
+PAYPAL_CLIENT_SECRET = "your_paypal_client_secret"
+PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com"
+WEBHOOK_SECRET = "your_webhook_secret"
+JWT_SECRET = "your_jwt_secret"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "paypal_payments"
+database_id = "your-database-id"
