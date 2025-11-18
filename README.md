@@ -1,1 +1,69 @@
 # paypal-workers
+
+```db
+-- Tabel untuk menyimpan data pembeli
+CREATE TABLE IF NOT EXISTS customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id TEXT UNIQUE NOT NULL,
+    email TEXT NOT NULL,
+    name TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk orders
+CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id TEXT UNIQUE NOT NULL,
+    customer_id TEXT NOT NULL,
+    paypal_order_id TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL,
+    amount REAL NOT NULL,
+    currency TEXT DEFAULT 'USD',
+    items TEXT, -- JSON string untuk items
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Tabel untuk subscriptions
+CREATE TABLE IF NOT EXISTS subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subscription_id TEXT UNIQUE NOT NULL,
+    customer_id TEXT NOT NULL,
+    paypal_subscription_id TEXT UNIQUE NOT NULL,
+    plan_id TEXT NOT NULL,
+    status TEXT NOT NULL,
+    start_time DATETIME NOT NULL,
+    next_billing_time DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Tabel untuk webhook events
+CREATE TABLE IF NOT EXISTS webhook_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    event_id TEXT UNIQUE NOT NULL,
+    event_type TEXT NOT NULL,
+    resource_type TEXT NOT NULL,
+    resource_id TEXT NOT NULL,
+    summary TEXT,
+    event_data TEXT NOT NULL, -- JSON string
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel untuk payment transactions
+CREATE TABLE IF NOT EXISTS transactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    transaction_id TEXT UNIQUE NOT NULL,
+    order_id TEXT,
+    subscription_id TEXT,
+    amount REAL NOT NULL,
+    currency TEXT DEFAULT 'USD',
+    status TEXT NOT NULL,
+    paypal_transaction_id TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions(subscription_id)
+);
+```
