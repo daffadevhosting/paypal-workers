@@ -1,6 +1,6 @@
 # paypal-workers
 
-```db
+```shell
 -- Tabel untuk menyimpan data pembeli
 CREATE TABLE IF NOT EXISTS customers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,4 +66,28 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (subscription_id) REFERENCES subscriptions(subscription_id)
 );
+```
+---
+- Membuat Order
+```js
+const response = await fetch('https://your-worker.workers.dev/api/payments/create-order', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    customer: {
+      customer_id: 'cust_123',
+      email: 'customer@example.com',
+      name: 'John Doe'
+    },
+    order: {
+      amount: '100.00',
+      currency: 'USD',
+      items: [
+        { name: 'Product 1', quantity: 1, price: '100.00' }
+      ],
+      return_url: 'https://yoursite.com/success',
+      cancel_url: 'https://yoursite.com/cancel'
+    }
+  })
+});
 ```
