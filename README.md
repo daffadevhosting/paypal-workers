@@ -91,3 +91,22 @@ const response = await fetch('https://your-worker.workers.dev/api/payments/creat
   })
 });
 ```
+- Membuat Subscriptions
+```js
+const response = await fetch('https://your-worker.workers.dev/api/subscriptions/create', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    customer: {
+      customer_id: 'cust_123',
+      email: 'customer@example.com',
+      name: 'John Doe'
+    },
+    subscription: {
+      plan_id: 'P-123456789',
+      return_url: 'https://yoursite.com/success',
+      cancel_url: 'https://yoursite.com/cancel'
+    }
+  })
+});
+```
