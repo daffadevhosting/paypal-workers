@@ -1,6 +1,6 @@
 # paypal-workers
 
-```shell
+```sql
 -- Tabel untuk menyimpan data pembeli
 CREATE TABLE IF NOT EXISTS customers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
